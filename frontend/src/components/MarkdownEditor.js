@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { convertMarkdown } from "../services/markdownService";
 
 const MarkdownEditor = () => {
@@ -13,7 +13,7 @@ const MarkdownEditor = () => {
 		try {
 			if (value.trim() === "") {
 				// Clear output if textarea is empty
-				setHtmlOutput("");
+				handleClear();
 			} else {
 				const convertedHtml = await convertMarkdown(value);
 				setHtmlOutput(convertedHtml);
@@ -22,6 +22,11 @@ const MarkdownEditor = () => {
 		} catch (error) {
 			console.error("Error converting Markdown:", error);
 		}
+	};
+
+	const handleClear = () => {
+		setMarkdownText("");
+		setHtmlOutput("");
 	};
 
 	return (
@@ -37,6 +42,9 @@ const MarkdownEditor = () => {
 							rows={10}
 						/>
 					</Form.Group>
+					<Button variant="danger" size="lg" onClick={handleClear} className="mt-3">
+						Clear
+					</Button>
 				</Col>
 				<Col>
 					<div className="markdown-preview">
